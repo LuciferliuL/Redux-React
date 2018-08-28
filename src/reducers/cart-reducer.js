@@ -1,0 +1,42 @@
+import { ADD_TO_CART, UPDATE_CART, DELETE_FROM_CART } from '../actions/cart-actions';
+//初始化的对象
+const initialState = {
+    cart: [
+        {
+            product: 'bread ',
+            quantity: 2,
+            unitCost: 90
+        }, {
+            product: 'milk ',
+            quantity: 1,
+            unitCost: 40
+        }
+
+    ]
+}
+//state是存储在store中的数据，action是一个容器
+export default function(state = initialState, action){
+    switch (action.type) {
+        case ADD_TO_CART: {
+            return {
+                ...state,
+                cart: [...state.cart, action.payload]
+            }
+        }
+        case UPDATE_CART: {
+            return {
+                ...state,
+                cart: state.cart.map(item => item.product === action.payload.product ? action.payload : item)
+            }
+        }
+        case DELETE_FROM_CART: {
+            return {
+                ...state,
+                cart:state.cart.filter(item => item.product !== action.payload.product)
+            }
+        }
+        default:
+            return state;
+    }
+    return state
+}
